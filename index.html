@@ -7,6 +7,7 @@
 <link rel="icon" href="assets/icon-square.png">
 <link rel="apple-touch-icon" href="assets/icon-square-hd.png">
 <meta name="theme-color" content="#1f3864">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -823,7 +824,7 @@
       </div>
       <div class="form-group">
         <label class="form-label">Password</label>
-        <input type="password" class="form-input" id="loginPassword" required>
+        <input type="password" class="form-input" id="loginPassword" autocomplete="current-password" required>
       </div>
       <div id="loginError" class="error-msg"></div>
       <button type="submit" class="btn btn-primary" style="width:100%;margin-top:1rem">Login</button>
@@ -837,11 +838,11 @@
       </div>
       <div class="form-group">
         <label class="form-label">Password</label>
-        <input type="password" class="form-input" id="signupPassword" required minlength="6">
+        <input type="password" class="form-input" id="signupPassword" autocomplete="new-password" required minlength="6">
       </div>
       <div class="form-group">
         <label class="form-label">Confirm Password</label>
-        <input type="password" class="form-input" id="signupPasswordConfirm" required>
+        <input type="password" class="form-input" id="signupPasswordConfirm" autocomplete="new-password" required>
       </div>
       <div id="signupError" class="error-msg"></div>
       <button type="submit" class="btn btn-primary" style="width:100%;margin-top:1rem">Sign Up</button>
