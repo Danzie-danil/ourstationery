@@ -1,0 +1,1473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Our Stationery – Business Manager</title>
+<link rel="icon" href="./assets/icon-square-CK2REwJJ.png">
+<link rel="apple-touch-icon" href="./assets/icon-square-CK2REwJJ.png">
+<meta name="theme-color" content="#1f3864">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1208;
+    --paper: #faf6f0;
+    --cream: #f3ede3;
+    --warm: #e8dece;
+    --gold: #c4952a;
+    --gold-light: #e8b84b;
+    --gold-pale: #fdf3dc;
+    --rust: #b84a2a;
+    --rust-pale: #fdeee8;
+    --sage: #3a6b4a;
+    --sage-pale: #e8f2ec;
+    --navy: #1f3864;
+    --navy-mid: #2e5fa3;
+    --mid: #7a6e60;
+    --border: #d4c8b8;
+    --shadow: rgba(26,18,8,0.12);
+  }
+
+  body.dark-mode {
+    --ink: #faf6f0;
+    --paper: #1a1208;
+    --cream: #2e251a;
+    --warm: #3a3020;
+    --gold: #e8b84b;
+    --gold-light: #f5d47a;
+    --gold-pale: #3a2f1a;
+    --rust: #e86a4a;
+    --rust-pale: #3a1a15;
+    --sage: #5a9b6a;
+    --sage-pale: #1a3a25;
+    --navy: #2f4874;
+    --navy-mid: #3e6fb3;
+    --mid: #a09a90;
+    --border: #4a4030;
+    --shadow: rgba(0,0,0,0.4);
+  }
+  body.dark-mode .auth-card,
+  body.dark-mode .list-card,
+  body.dark-mode .kpi-card,
+  body.dark-mode .table-wrap,
+  body.dark-mode .modal{
+    background:var(--cream);
+  }
+  body.dark-mode .form-input,
+  body.dark-mode .form-select{
+    background:var(--paper);
+  }
+  body.dark-mode .form-input:focus,
+  body.dark-mode .form-select:focus,
+  body.dark-mode td input:focus,
+  body.dark-mode td select:focus{
+    background:var(--cream);
+  }
+  body.dark-mode td input:hover,
+  body.dark-mode td select:hover{
+    background:var(--cream);
+  }
+  body.dark-mode .page-title{
+    color:var(--gold-light);
+  }
+  body.dark-mode .form-label{
+    color:var(--gold-light);
+  }
+  body.dark-mode tr:not(.total-row):hover td{
+    background:var(--gold-pale);
+  }
+  body.dark-mode tr:not(.total-row) td:has(input),
+  body.dark-mode tr:not(.total-row) td:has(select){
+    background:rgba(58,47,26,0.5);
+  }
+  body.dark-mode tr:not(.total-row):hover td:has(input),
+  body.dark-mode tr:not(.total-row):hover td:has(select){
+    background:rgba(58,47,26,0.8);
+  }
+  body.dark-mode .mobile-bottom-nav{
+    background:var(--navy);
+  }
+  body.dark-mode .mobile-tab{
+    color:#a0b4cc;
+  }
+  body.dark-mode .mobile-tab.active{
+    color:var(--gold-light);
+  }
+  body.dark-mode .btn{
+    border-color:var(--border);
+  }
+  body.dark-mode .btn:not(.btn-primary):not(.btn-gold):not(.btn-danger){
+    background:var(--cream);
+    color:var(--ink);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'DM Sans',sans-serif;
+    background:var(--paper);
+    color:var(--ink);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ── AUTH SCREEN ── */
+  .auth-screen{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height:100vh;
+    padding:1rem;
+    background:linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  }
+  .auth-card{
+    background:var(--paper);
+    border-radius:16px;
+    padding:2rem;
+    max-width:400px;
+    width:100%;
+    box-shadow:0 8px 40px rgba(0,0,0,0.3);
+  }
+  .auth-logo{
+    font-family:'Playfair Display',serif;
+    font-size:2rem;
+    font-weight:900;
+    color:var(--navy);
+    text-align:center;
+    margin-bottom:0.5rem;
+  }
+  .auth-logo span{color:var(--gold)}
+  .auth-subtitle{
+    text-align:center;
+    color:var(--mid);
+    font-size:0.9rem;
+    margin-bottom:2rem;
+  }
+  .auth-tabs{
+    display:flex;
+    gap:0.5rem;
+    margin-bottom:1.5rem;
+    border-bottom:2px solid var(--border);
+  }
+  .auth-tab{
+    flex:1;
+    padding:0.75rem;
+    background:none;
+    border:none;
+    border-bottom:3px solid transparent;
+    color:var(--mid);
+    font-weight:600;
+    cursor:pointer;
+    transition:all 0.2s;
+  }
+  .auth-tab.active{
+    color:var(--navy);
+    border-bottom-color:var(--gold);
+  }
+  .auth-form{display:none}
+  .auth-form.active{display:block}
+  .hidden{display:none !important}
+
+  /* ── HEADER ── */
+  .app-header{
+    background:var(--navy);
+    color:#fff;
+    padding:0 1rem;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    min-height:56px;
+    position:sticky;top:0;z-index:100;
+    box-shadow:0 2px 20px rgba(0,0,0,0.3);
+  }
+  .app-logo{
+    font-family:'Playfair Display',serif;
+    font-size:1.1rem;
+    font-weight:900;
+    letter-spacing:0.02em;
+    display:flex;align-items:center;gap:0.4rem;
+  }
+  .app-logo span{color:var(--gold-light)}
+  .header-right{display:flex;align-items:center;gap:0.8rem}
+  .header-meta{
+    font-size:0.65rem;
+    color:#a0b4cc;
+    font-family:'DM Mono',monospace;
+    display:none;
+  }
+  .save-indicator{
+    font-size:0.65rem;
+    padding:3px 8px;
+    border-radius:12px;
+    background:rgba(255,255,255,0.1);
+    color:#a0c88a;
+    transition:all 0.3s;
+    font-family:'DM Mono',monospace;
+  }
+  .save-indicator.saving{color:#e8c46a}
+  .btn-logout{
+    background:rgba(255,255,255,0.1);
+    color:#fff;
+    border:1px solid rgba(255,255,255,0.2);
+    padding:0.4rem 0.8rem;
+    border-radius:6px;
+    font-size:0.7rem;
+    cursor:pointer;
+    transition:all 0.2s;
+  }
+  .btn-logout:hover{background:rgba(255,255,255,0.2)}
+
+  /* ── NAV ── */
+  .nav-bar{
+    background:var(--cream);
+    border-top:2px solid var(--border);
+    display:flex;gap:0;
+    overflow-x:auto;
+    scrollbar-width:none;
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:99;
+    box-shadow:0 -2px 8px rgba(26,18,8,0.08);
+    -webkit-overflow-scrolling:touch;
+  }
+  .nav-bar::-webkit-scrollbar{display:none}
+  .nav-tab{
+    padding:0.65rem 0.8rem;
+    font-size:0.68rem;
+    font-weight:600;
+    color:var(--mid);
+    border:none;
+    background:none;
+    cursor:pointer;
+    white-space:nowrap;
+    border-top:3px solid transparent;
+    transition:all 0.2s;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    flex:1;
+    min-width:60px;
+  }
+  .nav-tab:hover{color:var(--navy);background:var(--warm)}
+  .nav-tab.active{color:var(--navy);border-top-color:var(--gold);background:#fff}
+  .nav-tab .tab-icon{font-size:1.1rem}
+
+  /* ── MOBILE NAVIGATION ── */
+  .mobile-bottom-nav{
+    display:none;
+    background:var(--paper);
+    border-top:1px solid var(--border);
+    position:fixed;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index:99;
+    box-shadow:0 -2px 10px rgba(26,18,8,0.08);
+    padding-bottom:env(safe-area-inset-bottom);
+  }
+  .mobile-tab{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:0.5rem 0.25rem;
+    background:none;
+    border:none;
+    cursor:pointer;
+    color:var(--mid);
+    transition:all 0.2s;
+    min-height:56px;
+  }
+  .mobile-tab.active{
+    color:var(--navy);
+  }
+  .mobile-tab-icon{
+    font-size:1.3rem;
+    line-height:1;
+  }
+  .mobile-tab-label{
+    font-size:0.65rem;
+    font-weight:600;
+    margin-top:2px;
+  }
+  .mobile-menu-backdrop{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(26,18,8,0.5);
+    z-index:150;
+    align-items:flex-end;
+    justify-content:center;
+  }
+  .mobile-menu-backdrop.open{
+    display:flex;
+    animation:fadeIn 0.2s ease;
+  }
+  .mobile-menu{
+    background:#fff;
+    width:100%;
+    max-height:60vh;
+    border-radius:16px 16px 0 0;
+    animation:slideUp 0.3s ease;
+    overflow:hidden;
+  }
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .mobile-menu-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:1rem 1.25rem;
+    border-bottom:1px solid var(--border);
+    font-weight:600;
+    color:var(--navy);
+  }
+  .mobile-menu-close{
+    background:none;
+    border:none;
+    font-size:1.5rem;
+    cursor:pointer;
+    color:var(--mid);
+    padding:0;
+    width:32px;
+    height:32px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+  .mobile-menu-items{
+    padding:0.5rem 0;
+    overflow-y:auto;
+    max-height:50vh;
+  }
+  .mobile-menu-item{
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:0.75rem;
+    padding:0.9rem 1.25rem;
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-align:left;
+    font-size:0.9rem;
+    color:var(--ink);
+    transition:background 0.15s;
+  }
+  .mobile-menu-item:hover{
+    background:var(--gold-pale);
+  }
+  .mobile-menu-item span:first-child{
+    font-size:1.2rem;
+  }
+
+  /* ── CARD LAYOUT FOR MOBILE LISTS ── */
+  .mobile-card-list{
+    display:none;
+    flex-direction:column;
+    gap:0.75rem;
+  }
+  .list-card{
+    background:var(--paper);
+    border:1.5px solid var(--border);
+    border-radius:10px;
+    padding:0.85rem;
+  }
+  .card-row{
+    display:flex;
+    gap:0.5rem;
+    margin-bottom:0.5rem;
+  }
+  .card-row:last-child{
+    margin-bottom:0;
+  }
+  .card-col{
+    flex:1;
+    display:flex;
+    flex-direction:column;
+  }
+  .card-label{
+    font-size:0.62rem;
+    font-weight:600;
+    color:var(--mid);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+    margin-bottom:2px;
+  }
+  .card-value{
+    font-size:0.85rem;
+    color:var(--ink);
+    font-weight:500;
+  }
+  .card-value.low-stock{color:var(--rust);font-weight:700}
+  .card-value.ok-stock{color:var(--sage);font-weight:700}
+  .card-btn{
+    width:100%;
+    padding:0.5rem;
+    font-size:0.8rem;
+    min-height:36px;
+  }
+  .list-card .card-row{
+    flex-wrap:wrap;
+  }
+  .list-card .card-col input,
+  .list-card .card-col select{
+    width:100%;
+    max-width:100%;
+    box-sizing:border-box;
+  }
+
+  @media (max-width: 639px) {
+    .table-scroll{
+      display:none;
+    }
+    .mobile-card-list{
+      display:flex;
+    }
+  }
+
+  /* ── CAPITAL TABLE IMPROVEMENTS ── */
+  #capitalTable{
+    min-width:auto !important;
+  }
+  #capitalTable th:first-child,
+  #capitalTable td:first-child{
+    width:100%;
+  }
+  #capitalTable th:last-child,
+  #capitalTable td:last-child{
+    width:auto;
+    white-space:nowrap;
+  }
+
+  /* ── PAGES ── */
+  .page{
+    display:none;
+    padding:1rem;
+    padding-bottom:80px;
+    max-width:100%;
+    margin:0 auto;
+    animation:fadeIn 0.3s ease;
+  }
+  .page.active{display:block}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ── SECTION TITLES ── */
+  .page-title{
+    font-family:'Playfair Display',serif;
+    font-size:1.4rem;font-weight:700;
+    color:var(--navy);
+    margin-bottom:0.25rem;
+  }
+  .page-subtitle{font-size:0.8rem;color:var(--mid);margin-bottom:1.2rem}
+
+  /* ── KPI GRID ── */
+  .kpi-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+    gap:0.75rem;
+    margin-bottom:1.5rem;
+  }
+  .kpi-card{
+    background:var(--paper);
+    border:1.5px solid var(--border);
+    border-radius:10px;
+    padding:0.85rem 1rem;
+    position:relative;overflow:hidden;
+    transition:transform 0.2s,box-shadow 0.2s;
+  }
+  .kpi-card:active{transform:scale(0.98)}
+  .kpi-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:3px;
+    background:var(--gold);
+  }
+  .kpi-card.profit::before{background:var(--sage)}
+  .kpi-card.loss::before{background:var(--rust)}
+  .kpi-card.neutral::before{background:var(--navy-mid)}
+  .kpi-label{
+    font-size:0.68rem;
+    font-weight:600;
+    color:var(--mid);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:0.35rem;
+  }
+  .kpi-value{
+    font-family:'DM Mono',monospace;
+    font-size:1.15rem;
+    font-weight:500;
+    color:var(--ink);
+  }
+  .kpi-value.pos{color:var(--sage)}
+  .kpi-value.neg{color:var(--rust)}
+  .kpi-sub{font-size:0.68rem;color:var(--mid);margin-top:3px}
+
+  /* ── TABLES ── */
+  .table-wrap{
+    background:var(--paper);
+    border:1.5px solid var(--border);
+    border-radius:10px;
+    overflow:hidden;
+    margin-bottom:1.2rem;
+  }
+  .table-header{
+    background:var(--navy);color:#fff;
+    padding:0.75rem 1rem;
+    font-size:0.78rem;font-weight:600;letter-spacing:0.05em;
+    display:flex;align-items:center;justify-content:space-between;
+    flex-wrap:wrap;
+    gap:0.5rem;
+  }
+  
+  .table-scroll{
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  table{
+    width:100%;
+    border-collapse:collapse;
+    min-width:600px;
+  }
+  th{
+    background:var(--cream);
+    padding:0.6rem 0.6rem;
+    font-size:0.7rem;font-weight:600;
+    color:var(--mid);text-transform:uppercase;letter-spacing:0.05em;
+    text-align:left;border-bottom:1.5px solid var(--border);
+    white-space:nowrap;
+  }
+  td{
+    padding:0.6rem 0.6rem;
+    font-size:0.8rem;
+    border-bottom:1px solid var(--cream);
+    vertical-align:middle;
+  }
+  tr:last-child td{border-bottom:none}
+  tr:not(.total-row):hover td{background:var(--gold-pale)}
+  tr.total-row td{background:var(--navy);color:#fff;font-weight:600;font-family:'DM Mono',monospace}
+  .total-row:hover td{background:var(--navy)}
+  
+  td input, td select{
+    border:1.5px solid var(--border);
+    background:var(--paper);
+    padding:6px 8px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.8rem;
+    color:var(--ink);
+    border-radius:6px;
+    width:100%;
+    min-width:80px;
+    transition:border-color 0.15s,background 0.15s,box-shadow 0.15s;
+    cursor:text;
+  }
+  td select{cursor:pointer}
+  td input:hover, td select:hover{
+    border-color:var(--gold-light);
+    background:var(--cream);
+  }
+  td input:focus, td select:focus{
+    outline:none;
+    border-color:var(--gold);
+    background:var(--cream);
+    box-shadow:0 0 0 3px rgba(196,149,42,0.18);
+  }
+  td input::placeholder{color:var(--border);font-style:italic}
+  td input[type=number]{text-align:right;font-family:'DM Mono',monospace}
+  td input.num-input{text-align:right;font-family:'DM Mono',monospace}
+  td input[type=date]{color:var(--mid);min-width:110px}
+  
+  tr:not(.total-row) td:has(input), tr:not(.total-row) td:has(select){
+    background:rgba(253,243,220,0.35);
+  }
+  tr:not(.total-row):hover td:has(input), tr:not(.total-row):hover td:has(select){
+    background:rgba(253,243,220,0.7);
+  }
+  .bs-input{text-align:right;font-family:'DM Mono',monospace}
+  .num{text-align:right;font-family:'DM Mono',monospace}
+  .pos-cell{color:var(--sage);font-weight:600;font-family:'DM Mono',monospace}
+  .neg-cell{color:var(--rust);font-weight:600;font-family:'DM Mono',monospace}
+  .warn-cell{color:var(--rust);font-weight:700;font-size:0.75rem}
+
+  /* ── BUTTONS ── */
+  .btn{
+    display:inline-flex;align-items:center;gap:5px;
+    padding:0.6rem 1rem;border-radius:8px;
+    font-family:'DM Sans',sans-serif;font-size:0.78rem;font-weight:600;
+    border:1.5px solid;cursor:pointer;transition:all 0.15s;
+    touch-action:manipulation;
+    min-height:40px;
+  }
+  .btn-primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+  .btn-primary:hover{background:var(--navy-mid)}
+  .btn-primary:active{transform:scale(0.97)}
+  .btn-gold{background:var(--gold);color:#fff;border-color:var(--gold)}
+  .btn-gold:hover{background:var(--gold-light);border-color:var(--gold-light)}
+  .btn-gold:active{transform:scale(0.97)}
+  .btn-danger{background:transparent;color:var(--rust);border-color:var(--rust)}
+  .btn-danger:hover{background:var(--rust);color:#fff}
+  .btn-danger:active{transform:scale(0.97)}
+  .btn-sm{padding:0.4rem 0.8rem;font-size:0.72rem;min-height:36px}
+  .btn-row{display:flex;gap:0.6rem;margin-bottom:1rem;flex-wrap:wrap}
+
+  /* ── FORM GROUPS ── */
+  .form-row{display:grid;grid-template-columns:1fr;gap:0.8rem;margin-bottom:0.8rem}
+  .form-group{display:flex;flex-direction:column;gap:0.4rem}
+  .form-label{font-size:0.78rem;font-weight:600;color:var(--navy);letter-spacing:0.02em}
+  .form-input, .form-select{
+    padding:0.6rem 0.8rem;
+    border:1.5px solid var(--border);
+    border-radius:8px;
+    font-family:'DM Sans',sans-serif;
+    font-size:0.85rem;
+    color:var(--ink);
+    background:var(--paper);
+    transition:all 0.15s;
+  }
+  .form-input:focus, .form-select:focus{
+    outline:none;
+    border-color:var(--gold);
+    background:var(--cream);
+    box-shadow:0 0 0 3px rgba(196,149,42,0.18);
+  }
+  .form-input.num{text-align:right;font-family:'DM Mono',monospace}
+  .error-msg{color:var(--rust);font-size:0.75rem;margin-top:0.3rem}
+
+  /* ── MODALS ── */
+  .modal-backdrop{
+    display:none;position:fixed;inset:0;
+    background:rgba(26,18,8,0.65);
+    z-index:200;
+    align-items:center;justify-content:center;
+    padding:1rem;
+    overflow:hidden;
+  }
+  .modal-backdrop.open{display:flex}
+  .modal{
+    background:var(--paper);
+    border-radius:12px;
+    max-width:500px;
+    width:100%;
+    max-height:90vh;
+    display:flex;
+    flex-direction:column;
+    box-shadow:0 8px 40px rgba(0,0,0,0.3);
+    animation:modalSlideIn 0.25s ease;
+    overflow:hidden;
+  }
+  @keyframes modalSlideIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .modal-header{
+    background:var(--navy);color:#fff;
+    padding:1rem 1.2rem;
+    font-family:'Playfair Display',serif;
+    font-size:1.2rem;font-weight:700;
+    border-radius:12px 12px 0 0;
+    display:flex;align-items:center;justify-content:space-between;
+    flex-shrink:0;
+  }
+  .modal-close{
+    background:none;border:none;color:#fff;font-size:1.5rem;
+    cursor:pointer;opacity:0.8;transition:opacity 0.15s;
+    width:32px;height:32px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .modal-close:hover{opacity:1}
+  .modal-body{
+    padding:1.2rem;
+    overflow-y:auto;
+    flex:1;
+  }
+  .modal-footer{
+    padding:1rem 1.2rem;
+    border-top:1px solid var(--border);
+    display:flex;gap:0.6rem;justify-content:flex-end;
+    flex-wrap:wrap;
+    flex-shrink:0;
+  }
+
+  .modal-confirm, .modal-alert{max-width:400px}
+  .modal-icon{font-size:3rem;text-align:center;margin-bottom:0.8rem}
+  .modal-confirm .modal-title, .modal-alert .modal-title{
+    font-family:'Playfair Display',serif;
+    font-size:1.3rem;font-weight:700;
+    color:var(--navy);text-align:center;margin-bottom:0.5rem;
+  }
+  .modal-confirm .modal-msg, .modal-alert .modal-msg{
+    font-size:0.9rem;color:var(--mid);text-align:center;line-height:1.5;
+  }
+  .modal-alert.warn .modal-title{color:var(--rust)}
+
+  /* ── TOAST ── */
+  .toast-container{position:fixed;bottom:5rem;left:50%;transform:translateX(-50%);z-index:300;pointer-events:none}
+  .toast{
+    background:var(--navy);color:#fff;
+    padding:0.75rem 1.2rem;border-radius:8px;
+    font-size:0.85rem;font-weight:500;
+    box-shadow:0 4px 24px rgba(0,0,0,0.25);
+    animation:toastSlideUp 0.3s ease;
+    pointer-events:auto;
+    max-width:90vw;
+    text-align:center;
+  }
+  @keyframes toastSlideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+
+  /* ── CHIPS ── */
+  .chip{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--gold-pale);
+    color:var(--navy);
+    padding:0.4rem 0.8rem;
+    border-radius:20px;
+    font-size:0.78rem;font-weight:500;
+    border:1px solid var(--gold);
+  }
+  .chip-del{
+    background:var(--rust);color:#fff;
+    border:none;border-radius:50%;
+    width:20px;height:20px;
+    font-size:1rem;line-height:1;
+    cursor:pointer;transition:background 0.15s;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .chip-del:hover{background:#8b3520}
+  .chip-list{display:flex;flex-wrap:wrap;gap:0.6rem;margin:1rem 0}
+
+  /* ── LOADING SPINNER ── */
+  .spinner{
+    border:3px solid var(--border);
+    border-top:3px solid var(--navy);
+    border-radius:50%;
+    width:40px;
+    height:40px;
+    animation:spin 1s linear infinite;
+    margin:2rem auto;
+  }
+  @keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+
+  /* ── RESPONSIVE IMPROVEMENTS ── */
+  @media (max-width: 639px) {
+    .desktop-nav{display:none}
+    .mobile-bottom-nav{display:flex}
+    .page{padding-bottom:80px}
+  }
+  @media (min-width: 640px) {
+    .desktop-nav{display:flex}
+    .mobile-bottom-nav{display:none}
+    .page{padding:1.5rem;padding-bottom:90px}
+    .app-header{padding:0 1.5rem;min-height:64px}
+    .nav-tab{
+      padding:0.75rem 1.1rem;
+      font-size:0.78rem;
+      flex-direction:row;
+      gap:6px;
+    }
+    .app-logo{font-size:1.3rem}
+    .header-meta{display:block;font-size:0.72rem}
+    .save-indicator{font-size:0.7rem}
+    .page-title{font-size:1.6rem}
+    .kpi-grid{grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem}
+    .form-row{grid-template-columns:repeat(2,1fr);gap:1rem}
+    table{min-width:700px}
+    .auth-card{padding:2.5rem}
+  }
+  
+  @media (min-width: 1024px) {
+    .page{padding:2rem;padding-bottom:100px;max-width:1400px}
+    .page-title{font-size:1.8rem}
+    .kpi-grid{grid-template-columns:repeat(auto-fill,minmax(180px,1fr))}
+    table{min-width:auto}
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    .btn{min-height:44px}
+    .nav-tab{padding:0.75rem 1.1rem}
+    td input, td select{padding:8px;min-height:40px}
+  }
+
+  @media print {
+    .app-header, .nav-bar, .btn, .btn-row, .modal-backdrop, #toastContainer { display: none !important; }
+    .page { display: block !important; padding: 1rem !important; }
+    body { background: #fff !important; }
+    table { width: 100%; font-size: 0.8rem; }
+    td, th { padding: 0.4rem; }
+  }
+</style>
+  <script type="module" crossorigin src="./assets/index-UpTYtZ2n.js"></script>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     AUTH SCREEN
+════════════════════════════════════════════════════════════════ -->
+<div id="authScreen" class="auth-screen">
+  <div class="auth-card">
+    <div class="auth-logo" style="display:flex;align-items:center;justify-content:center;gap:0.75rem">
+      <img src="./assets/icon-square-CK2REwJJ.png" style="width:60px;height:60px;object-fit:cover;border-radius:12px;">
+      Our<span>Stationery</span>
+    </div>
+    <p class="auth-subtitle">Business Management System</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" onclick="switchAuthTab('login')">Login</button>
+      <button class="auth-tab" onclick="switchAuthTab('signup')">Sign Up</button>
+    </div>
+
+    <!-- Login Form -->
+    <form id="loginForm" class="auth-form active" onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="loginEmail" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="loginPassword" required>
+      </div>
+      <div id="loginError" class="error-msg"></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:1rem">Login</button>
+    </form>
+
+    <!-- Signup Form -->
+    <form id="signupForm" class="auth-form" onsubmit="handleSignup(event)">
+      <div class="form-group">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="signupEmail" required>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input type="password" class="form-input" id="signupPassword" required minlength="6">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Confirm Password</label>
+        <input type="password" class="form-input" id="signupPasswordConfirm" required>
+      </div>
+      <div id="signupError" class="error-msg"></div>
+      <button type="submit" class="btn btn-primary" style="width:100%;margin-top:1rem">Sign Up</button>
+    </form>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MAIN APP
+════════════════════════════════════════════════════════════════ -->
+<div id="mainApp" class="hidden">
+
+<!-- HEADER -->
+<header class="app-header">
+  <div class="app-logo" style="gap:0.5rem">
+    <img src="./assets/icon-square-CK2REwJJ.png" style="width:36px;height:36px;object-fit:cover;border-radius:8px;">
+    Our<span>Stationery</span>
+  </div>
+  <div class="header-right">
+    <div class="header-meta" id="dateDisplay"></div>
+    <div class="save-indicator" id="saveStatus">Synced</div>
+    <button class="btn-logout" onclick="toggleDarkMode()" id="themeToggleBtn" style="width:40px;height:40px;display:flex;align-items:center;justify-content:center;">
+      <svg id="sunIcon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:block">
+        <circle cx="12" cy="12" r="5"></circle>
+        <line x1="12" y1="1" x2="12" y2="3"></line>
+        <line x1="12" y1="21" x2="12" y2="23"></line>
+        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+        <line x1="1" y1="12" x2="3" y2="12"></line>
+        <line x1="21" y1="12" x2="23" y2="12"></line>
+        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+      </svg>
+      <svg id="moonIcon" xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display:none">
+        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+      </svg>
+    </button>
+    <button class="btn-logout" onclick="handleLogout()">Logout</button>
+  </div>
+</header>
+
+<!-- NAV -->
+<nav class="nav-bar desktop-nav">
+  <button class="nav-tab active" id="tab-dashboard" onclick="switchTab('dashboard')">
+    <span class="tab-icon">📊</span>Dashboard
+  </button>
+  <button class="nav-tab" id="tab-sales" onclick="switchTab('sales')">
+    <span class="tab-icon">🛒</span>Sales
+  </button>
+  <button class="nav-tab" id="tab-inventory" onclick="switchTab('inventory')">
+    <span class="tab-icon">📦</span>Inventory
+  </button>
+  <button class="nav-tab" id="tab-customers" onclick="switchTab('customers')">
+    <span class="tab-icon">👥</span>Customers
+  </button>
+  <button class="nav-tab" id="tab-capital" onclick="switchTab('capital')">
+    <span class="tab-icon">💰</span>Capital
+  </button>
+  <button class="nav-tab" id="tab-income" onclick="switchTab('income')">
+    <span class="tab-icon">💵</span>Income
+  </button>
+  <button class="nav-tab" id="tab-balance" onclick="switchTab('balance')">
+    <span class="tab-icon">⚖️</span>Balance
+  </button>
+  <button class="nav-tab" id="tab-settings" onclick="switchTab('settings')">
+    <span class="tab-icon">⚙️</span>Settings
+  </button>
+</nav>
+
+<!-- Mobile Bottom Tab Bar (iOS Style) -->
+<nav class="mobile-bottom-nav">
+  <button class="mobile-tab active" id="mobile-tab-dashboard" onclick="switchTab('dashboard')">
+    <span class="mobile-tab-icon">📊</span>
+    <span class="mobile-tab-label">Home</span>
+  </button>
+  <button class="mobile-tab" id="mobile-tab-sales" onclick="switchTab('sales')">
+    <span class="mobile-tab-icon">🛒</span>
+    <span class="mobile-tab-label">Sales</span>
+  </button>
+  <button class="mobile-tab" id="mobile-tab-more" onclick="openMobileMenu()">
+    <span class="mobile-tab-icon">☰</span>
+    <span class="mobile-tab-label">More</span>
+  </button>
+  <button class="mobile-tab" id="mobile-tab-inventory" onclick="switchTab('inventory')">
+    <span class="mobile-tab-icon">📦</span>
+    <span class="mobile-tab-label">Stock</span>
+  </button>
+  <button class="mobile-tab" id="mobile-tab-settings" onclick="switchTab('settings')">
+    <span class="mobile-tab-icon">⚙️</span>
+    <span class="mobile-tab-label">Settings</span>
+  </button>
+</nav>
+
+<!-- Mobile More Menu -->
+<div class="mobile-menu-backdrop" id="mobileMenuBackdrop" onclick="closeMobileMenu()">
+  <div class="mobile-menu" onclick="event.stopPropagation()">
+    <div class="mobile-menu-header">
+      <span>More Options</span>
+      <button class="mobile-menu-close" onclick="closeMobileMenu()">✕</button>
+    </div>
+    <div class="mobile-menu-items">
+      <button class="mobile-menu-item" id="menu-tab-customers" onclick="switchTab('customers'); closeMobileMenu();">
+        <span>👥</span> Customers
+      </button>
+      <button class="mobile-menu-item" id="menu-tab-capital" onclick="switchTab('capital'); closeMobileMenu();">
+        <span>💰</span> Capital
+      </button>
+      <button class="mobile-menu-item" id="menu-tab-income" onclick="switchTab('income'); closeMobileMenu();">
+        <span>💵</span> Income
+      </button>
+      <button class="mobile-menu-item" id="menu-tab-balance" onclick="switchTab('balance'); closeMobileMenu();">
+        <span>⚖️</span> Balance
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Dashboard Page -->
+<section id="page-dashboard" class="page active">
+  <h1 class="page-title">Business Dashboard</h1>
+  <p class="page-subtitle">Overview of your stationery business performance</p>
+  
+  <!-- Low Stock Alert Banner -->
+  <div id="lowStockBanner" class="table-wrap" style="margin-bottom:1rem;display:none">
+    <div class="table-header" style="background:var(--rust);color:#fff">
+      ⚠️ Low Stock Alert
+    </div>
+    <div style="padding:1rem" id="lowStockItems"></div>
+  </div>
+  
+  <div class="kpi-grid" id="dashKPIs"></div>
+  
+  <!-- Charts Section -->
+  <div class="btn-row">
+    <div class="table-wrap" style="flex:1;min-width:300px">
+      <div class="table-header">📈 Monthly Trends</div>
+      <div style="padding:1rem">
+        <canvas id="trendsChart"></canvas>
+      </div>
+    </div>
+    <div class="table-wrap" style="flex:1;min-width:300px">
+      <div class="table-header">📦 Inventory by Category</div>
+      <div style="padding:1rem">
+        <canvas id="inventoryChart"></canvas>
+      </div>
+    </div>
+  </div>
+  
+  <div class="table-wrap">
+    <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+      <span>📈 Monthly Summary</span>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="btn btn-gold btn-sm" onclick="exportToCSV('dashboard')">📥 Export CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="printPage('dashboard')">🖨️ Print</button>
+      </div>
+    </div>
+    <div style="padding:0.8rem;border-bottom:1.5px solid var(--border);">
+      <input type="text" class="form-input" id="dashSearch" placeholder="🔍 Search month..." oninput="searchTable('dashboard', this.value)">
+    </div>
+    <div class="table-scroll">
+      <table id="dashTable"></table>
+    </div>
+    <div class="mobile-card-list" id="dashCards"></div>
+    <div id="dashPagination"></div>
+  </div>
+</section>
+
+<!-- Sales Page -->
+<section id="page-sales" class="page">
+  <h1 class="page-title">Sales & Invoices</h1>
+  <p class="page-subtitle">Record sales and view transaction history</p>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="openNewSaleModal()">➕ New Sale</button>
+  </div>
+  <div class="table-wrap">
+    <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+      <span>🛒 Sales History</span>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="btn btn-gold btn-sm" onclick="exportToCSV('sales')">📥 Export CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="printPage('sales')">🖨️ Print</button>
+      </div>
+    </div>
+    <div style="padding:0.8rem;border-bottom:1.5px solid var(--border);">
+      <input type="text" class="form-input" id="salesSearch" placeholder="🔍 Search by customer, invoice #, or payment method..." oninput="searchTable('sales', this.value)">
+    </div>
+    <div class="table-scroll">
+      <table id="salesTable"></table>
+    </div>
+    <div class="mobile-card-list" id="salesCards"></div>
+    <div id="salesPagination"></div>
+  </div>
+</section>
+
+<!-- Inventory Page -->
+<section id="page-inventory" class="page">
+  <h1 class="page-title">Inventory Management</h1>
+  <p class="page-subtitle">Track your products, stock levels, and reorder points</p>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="addInventoryItem()">➕ Add Item</button>
+    <button class="btn btn-gold" onclick="openManageCategories()">🗂️ Categories</button>
+  </div>
+  <div class="table-wrap">
+    <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+      <div style="display:flex;flex-direction:column;">
+        <span>📦 Current Stock</span>
+        <span style="font-size:0.7rem;font-weight:400">Changes auto-sync</span>
+      </div>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="btn btn-gold btn-sm" onclick="exportToCSV('inventory')">📥 Export CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="printPage('inventory')">🖨️ Print</button>
+      </div>
+    </div>
+    <div style="padding:0.8rem;border-bottom:1.5px solid var(--border);">
+      <input type="text" class="form-input" id="inventorySearch" placeholder="🔍 Search by item name or category..." oninput="searchTable('inventory', this.value)">
+    </div>
+    <div class="table-scroll">
+      <table id="inventoryTable"></table>
+    </div>
+    <div class="mobile-card-list" id="inventoryCards"></div>
+    <div id="inventoryPagination"></div>
+  </div>
+</section>
+
+<!-- Customers Page -->
+<section id="page-customers" class="page">
+  <h1 class="page-title">Customer Management</h1>
+  <p class="page-subtitle">Manage your customer information and contact details</p>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="openCustomerModal()">➕ Add Customer</button>
+  </div>
+  <div class="table-wrap">
+    <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+      <span>👥 Customer List</span>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="btn btn-gold btn-sm" onclick="exportToCSV('customers')">📥 Export CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="printPage('customers')">🖨️ Print</button>
+      </div>
+    </div>
+    <div style="padding:0.8rem;border-bottom:1.5px solid var(--border);">
+      <input type="text" class="form-input" id="customersSearch" placeholder="🔍 Search customer name or email..." oninput="searchTable('customers', this.value)">
+    </div>
+    <div class="table-scroll">
+      <table id="customersTable"></table>
+    </div>
+    <div class="mobile-card-list" id="customersCards"></div>
+    <div id="customersPagination"></div>
+  </div>
+</section>
+
+<!-- Capital Page -->
+<section id="page-capital" class="page">
+  <h1 class="page-title">Capital & Equity</h1>
+  <p class="page-subtitle">Owner contributions, loans, and withdrawals</p>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="openCapitalModal()">✏️ Edit Capital</button>
+  </div>
+  <div class="table-wrap">
+    <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+      <span>💰 Capital Statement</span>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="btn btn-gold btn-sm" onclick="exportToCSV('capital')">📥 Export CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="printPage('capital')">🖨️ Print</button>
+      </div>
+    </div>
+    <div style="padding:0.8rem;border-bottom:1.5px solid var(--border);">
+      <input type="text" class="form-input" id="capitalSearch" placeholder="🔍 Search description..." oninput="searchTable('capital', this.value)">
+    </div>
+    <div class="table-scroll">
+      <table id="capitalTable"></table>
+    </div>
+    <div class="mobile-card-list" id="capitalCards"></div>
+    <div id="capitalPagination"></div>
+  </div>
+</section>
+
+<!-- Income Page -->
+<section id="page-income" class="page">
+  <h1 class="page-title">Income Statement</h1>
+  <p class="page-subtitle">Revenue, expenses, and profit tracking by month</p>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="openIncomeModal()">✏️ Edit Income Data</button>
+  </div>
+  <div class="table-wrap">
+    <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+      <span>💵 Income & Expenses</span>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="btn btn-gold btn-sm" onclick="exportToCSV('income')">📥 Export CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="printPage('income')">🖨️ Print</button>
+      </div>
+    </div>
+    <div style="padding:0.8rem;border-bottom:1.5px solid var(--border);">
+      <input type="text" class="form-input" id="incomeSearch" placeholder="🔍 Search month..." oninput="searchTable('income', this.value)">
+    </div>
+    <div class="table-scroll">
+      <table id="incomeTable"></table>
+    </div>
+    <div class="mobile-card-list" id="incomeCards"></div>
+    <div id="incomePagination"></div>
+  </div>
+</section>
+
+<!-- Balance Sheet Page -->
+<section id="page-balance" class="page">
+  <h1 class="page-title">Balance Sheet</h1>
+  <p class="page-subtitle">Assets, liabilities, and equity snapshot</p>
+  <div class="kpi-grid" id="balanceKPIs"></div>
+  <div class="table-wrap">
+    <div class="table-header" style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;">
+      <span>⚖️ Financial Position</span>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+        <button class="btn btn-gold btn-sm" onclick="exportToCSV('balance')">📥 Export CSV</button>
+        <button class="btn btn-primary btn-sm" onclick="printPage('balance')">🖨️ Print</button>
+      </div>
+    </div>
+    <div style="padding:0.8rem;border-bottom:1.5px solid var(--border);">
+      <input type="text" class="form-input" id="balanceSearch" placeholder="🔍 Search item..." oninput="searchTable('balance', this.value)">
+    </div>
+    <div class="table-scroll">
+      <table id="balanceTable"></table>
+    </div>
+    <div class="mobile-card-list" id="balanceCards"></div>
+    <div id="balancePagination"></div>
+  </div>
+</section>
+
+<!-- Settings Page -->
+<section id="page-settings" class="page">
+  <h1 class="page-title">Settings & Data</h1>
+  <p class="page-subtitle">Manage your business data and preferences</p>
+  <div class="table-wrap" style="padding:1.5rem">
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:1rem">
+      💾 Data Management
+    </h3>
+    <div class="btn-row">
+      <button class="btn btn-gold" onclick="exportData()">📤 Export Backup</button>
+      <label class="btn btn-primary" style="cursor:pointer">
+        📥 Import Backup
+        <input type="file" accept=".json" onchange="importData(event)" style="display:none">
+      </label>
+      <button class="btn btn-danger" onclick="confirmReset()">🗑️ Reset All Data</button>
+    </div>
+    <p style="font-size:0.8rem;color:var(--mid);margin-top:0.8rem;line-height:1.5">
+      Data is automatically synced to Supabase cloud storage. Export creates a local backup file.
+    </p>
+  </div>
+  <div class="table-wrap" style="padding:1.5rem;margin-top:1rem">
+    <h3 style="font-family:'Playfair Display',serif;font-size:1.1rem;color:var(--navy);margin-bottom:0.5rem">
+      ℹ️ About
+    </h3>
+    <p style="font-size:0.85rem;color:var(--mid);line-height:1.6">
+      <strong style="color:var(--navy)">Our Stationery Business Manager</strong> helps you track inventory, 
+      manage capital, record income and expenses, and generate financial statements. Data is securely stored 
+      in Supabase with real-time synchronization across devices.
+    </p>
+  </div>
+</section>
+
+<!-- MODALS -->
+<div class="modal-backdrop" id="modalCapitalBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      💰 Edit Capital
+      <button class="modal-close" onclick="closeModal('modalCapitalBackdrop')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Owner 1 Capital</label>
+          <input type="text" class="form-input num" id="capIn_owner1Capital" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Owner 2 Capital</label>
+          <input type="text" class="form-input num" id="capIn_owner2Capital" placeholder="0">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Loans</label>
+          <input type="text" class="form-input num" id="capIn_loans" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Savings Account</label>
+          <input type="text" class="form-input num" id="capIn_savingsAccount" placeholder="0">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Emergency Fund</label>
+          <input type="text" class="form-input num" id="capIn_emergency" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Reinvested Profit</label>
+          <input type="text" class="form-input num" id="capIn_reinvested" placeholder="0">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Owner 1 Drawings</label>
+          <input type="text" class="form-input num" id="capIn_owner1Drawings" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Owner 2 Drawings</label>
+          <input type="text" class="form-input num" id="capIn_owner2Drawings" placeholder="0">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="saveCapitalModal()">💾 Save</button>
+      <button class="btn btn-danger" onclick="closeModal('modalCapitalBackdrop')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalIncomeBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      💵 Edit Income Data
+      <button class="modal-close" onclick="closeModal('modalIncomeBackdrop')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" style="margin-bottom:1rem">
+        <label class="form-label">Select Month</label>
+        <select class="form-select" id="incomeModalMonth"></select>
+      </div>
+      <h4 style="font-weight:600;color:var(--navy);margin-bottom:0.8rem;font-size:0.9rem">Revenue</h4>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Product Sales</label>
+          <input type="text" class="form-input num" id="incIn_productSales" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Stationery Sales</label>
+          <input type="text" class="form-input num" id="incIn_stationerySales" placeholder="0">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Wholesale</label>
+        <input type="text" class="form-input num" id="incIn_wholesale" placeholder="0">
+      </div>
+      <h4 style="font-weight:600;color:var(--navy);margin:1.2rem 0 0.8rem;font-size:0.9rem">Expenses</h4>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Stock Purchase</label>
+          <input type="text" class="form-input num" id="incIn_stockPurchase" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Rent</label>
+          <input type="text" class="form-input num" id="incIn_rent" placeholder="0">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Salaries</label>
+          <input type="text" class="form-input num" id="incIn_salaries" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Other Expenses</label>
+          <input type="text" class="form-input num" id="incIn_otherExp" placeholder="0">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="saveIncomeModal()">💾 Save</button>
+      <button class="btn btn-danger" onclick="closeModal('modalIncomeBackdrop')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalCategoriesBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      🗂️ Manage Categories
+      <button class="modal-close" onclick="closeModal('modalCategoriesBackdrop')">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="font-size:0.85rem;color:var(--mid);margin-bottom:1rem;line-height:1.5">
+        Add custom categories for your inventory items. Base categories cannot be removed.
+      </p>
+      <div class="form-group" style="margin-bottom:1.2rem">
+        <label class="form-label">New Category Name</label>
+        <div style="display:flex;gap:0.6rem">
+          <input type="text" class="form-input" id="newCatInput" placeholder="e.g., Premium Items">
+          <button class="btn btn-primary" onclick="addCategory()">➕ Add</button>
+        </div>
+      </div>
+      <h4 style="font-weight:600;color:var(--navy);margin-bottom:0.8rem;font-size:0.9rem">Your Custom Categories</h4>
+      <div class="chip-list" id="catChipList"></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="closeModal('modalCategoriesBackdrop')">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- New Sale Modal -->
+<div class="modal-backdrop" id="modalNewSaleBackdrop">
+  <div class="modal" style="max-width:700px">
+    <div class="modal-header">
+      🛒 New Sale
+      <button class="modal-close" onclick="closeModal('modalNewSaleBackdrop')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Customer Name</label>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+            <select class="form-select" id="saleCustomerSelect" style="flex:1;min-width:150px;" onchange="updateSaleCustomer()">
+              <option value="">Walk-in Customer</option>
+            </select>
+            <input type="text" class="form-input" id="saleCustomerName" placeholder="Or enter custom name" style="flex:1;min-width:150px;">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Payment Method</label>
+          <select class="form-select" id="salePaymentMethod">
+            <option value="Cash">Cash</option>
+            <option value="Card">Card</option>
+            <option value="Mobile Money">Mobile Money</option>
+            <option value="Credit">Credit</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label class="form-label">Notes</label>
+        <input type="text" class="form-input" id="saleNotes" placeholder="Optional notes">
+      </div>
+      
+      <h4 style="font-weight:600;color:var(--navy);margin-bottom:0.8rem;font-size:0.9rem">Items</h4>
+      <div class="table-wrap" style="margin-bottom:1rem">
+        <div class="table-scroll">
+          <table id="saleItemsTable">
+            <thead>
+              <tr>
+                <th>Item</th>
+                <th>Qty</th>
+                <th>Price</th>
+                <th>Total</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="saleItemsBody"></tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div class="btn-row" style="margin-bottom:1rem">
+        <button class="btn btn-gold btn-sm" onclick="addSaleItem()">➕ Add Item</button>
+      </div>
+      
+      <div class="table-wrap" style="background:var(--gold-pale);border-color:var(--gold)">
+        <div style="padding:1rem;display:flex;justify-content:space-between;align-items:center">
+          <span style="font-weight:700;color:var(--navy);font-size:1.1rem">Total:</span>
+          <span style="font-family:'DM Mono',monospace;font-size:1.3rem;font-weight:700;color:var(--navy)" id="saleTotal">TZS 0</span>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="saveSale()">💾 Record Sale</button>
+      <button class="btn btn-danger" onclick="closeModal('modalNewSaleBackdrop')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Customer Modal -->
+<div class="modal-backdrop" id="modalCustomerBackdrop">
+  <div class="modal">
+    <div class="modal-header">
+      👥 Add/Edit Customer
+      <button class="modal-close" onclick="closeModal('modalCustomerBackdrop')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group" style="margin-bottom:1rem">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-input" id="customerName" placeholder="Customer name" required>
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-input" id="customerEmail" placeholder="email@example.com">
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label class="form-label">Phone</label>
+        <input type="text" class="form-input" id="customerPhone" placeholder="+255 7XX XXX XXX">
+      </div>
+      <div class="form-group" style="margin-bottom:1rem">
+        <label class="form-label">Address</label>
+        <textarea class="form-input" id="customerAddress" rows="3" placeholder="Customer address"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="saveCustomer()">💾 Save</button>
+      <button class="btn btn-danger" onclick="closeModal('modalCustomerBackdrop')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalConfirmBackdrop">
+  <div class="modal modal-confirm">
+    <div class="modal-body">
+      <div class="modal-icon" id="modalConfirmIcon">⚠️</div>
+      <h3 class="modal-title" id="modalConfirmTitle">Confirm Action</h3>
+      <p class="modal-msg" id="modalConfirmMsg">Are you sure?</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-danger" id="modalConfirmOk">Confirm</button>
+      <button class="btn btn-primary" onclick="closeModal('modalConfirmBackdrop')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="modalAlertBackdrop">
+  <div class="modal modal-alert" id="modalAlertEl">
+    <div class="modal-body">
+      <div class="modal-icon" id="modalAlertIcon">ℹ️</div>
+      <h3 class="modal-title" id="modalAlertTitle">Notice</h3>
+      <p class="modal-msg" id="modalAlertMsg">Message here</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-primary" onclick="closeModal('modalAlertBackdrop')">OK</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container" id="toastContainer"></div>
+
+</div>
+
+</body>
+</html>
