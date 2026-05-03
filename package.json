@@ -1,0 +1,28 @@
+{
+  "name": "ourstationery-app",
+  "version": "1.0.0",
+  "description": "Our Stationery Business Manager - Full-stack application with Supabase",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "vercel-build": "vite build"
+  },
+  "keywords": [
+    "stationery",
+    "business",
+    "inventory",
+    "accounting"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.39.3",
+    "chart.js": "^4.5.1",
+    "vite": "^5.0.11"
+  },
+  "devDependencies": {
+    "vite": "^5.0.11"
+  }
+}
